@@ -1,10 +1,15 @@
+package PigeonSquare;
+
 import java.util.ArrayList;
 
 public class World {
 
     private ArrayList<Food> foods;
 
+
+
     public World(){
+
         this.foods = new ArrayList<Food>();
     }
 
@@ -14,12 +19,12 @@ public class World {
     }
 
     //TODO try catch ???
-    // Remove given Food
+    // Remove given PigeonSquare.Food
     public void removeFood(int x, int y){
         Food tmpFood = null;
-        boolean test =false ;
+        boolean test = false;
        for(Food food : foods){
-           if ((food.x == x) && (food.y == y)) {
+           if ((food.getX() == x) && (food.getY() == y)) {
                tmpFood = food;
                test= true;
            }
@@ -30,13 +35,13 @@ public class World {
     }
 
     //TODO try catch ???
-    // Remove given Food
+    // Remove given PigeonSquare.Food
     public void removeFood(Food f){
         foods.remove(f);
     }
 
 
-    // Remove all old Food
+    // Remove all old PigeonSquare.Food
     public void cleanOldFood(){
         ArrayList<Food> tmpFood = new ArrayList<>();
 
@@ -52,25 +57,26 @@ public class World {
 
     }
 
-    // Return if there is Food on this position
+    // Return if there is PigeonSquare.Food on this position
     public boolean isGoodFood(int x, int y){
         boolean test = false;
         for(Food food : foods) {
-            if ((food.x == x) && (food.y == y) && (food.isGood())) {
+            if ((food.getX() == x) && (food.getY() == y) && (food.isGood())) {
                 test = true;
             }
         }
         return test;
     }
 
-    // Return nearest Food from given position
+    // Return nearest PigeonSquare.Food from given position
     public Food getNearestGoodFood(int x, int y){
         int min = 999999;
+        int inutile = 0 ;
         Food tmpFood = null;
 
         for(Food food:foods){
             if (food.isGood()){
-                int tmp= food.x *food.x + food.y + food.y;
+                int tmp= food.getX() * food.getX() + food.getY() + food.getY();
                 if (min > tmp){
                     tmpFood = food;
                     min = tmp;

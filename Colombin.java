@@ -1,10 +1,25 @@
+package PigeonSquare;
+
 public class Colombin extends Bird {
 
-    public Colombin(int xpos, int ypos, World world){
-        x = xpos;
-        y = ypos;
-        maxSpeed = 2;
-        maxFear = 4;
-        this.gameBoard = world;
+
+
+
+
+    public Colombin(){
+        super();
+        this.setSize(25);
+        this.setCat(2);
     }
+
+
+
+
+    public Colombin(int xpos, int ypos){
+        super(xpos,ypos);
+        this.setSize(25);
+        this.setCat(1);
+    }
+
+
 }

@@ -1,10 +1,22 @@
+package PigeonSquare;
+
 public class Biset extends Bird {
 
-    public Biset(int xpos, int ypos, World world){
-        x = xpos;
-        y = ypos;
-        maxSpeed = 2;
-        maxFear = 4;
-        this.gameBoard = world;
+
+
+
+    public Biset(){
+        super();
+        this.setSize(20);
+        this.setCat(1);
+    }
+
+
+
+
+    public Biset(int xpos, int ypos){
+        super(xpos,ypos);
+        this.setSize(20);
+        this.setCat(1);
     }
 }
