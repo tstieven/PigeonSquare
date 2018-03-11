@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 import java.util.Random;
 
 public abstract class Bird implements Runnable {
@@ -8,6 +6,7 @@ public abstract class Bird implements Runnable {
     private int x;
     private int y;
     private int eaten = 0;
+    private Food target = null;
 
 
 
@@ -25,14 +24,9 @@ public abstract class Bird implements Runnable {
 
     private int speed;
 
-    private int pigeonCount = 0;
+    private int pigeonCount;
 
-    public World gameBoard;
-    public boolean foodAvailable = false;
-
-    //Closest good food position
-    public int xFood;
-    public int yFood;
+    private Panneau gameBoard;
 
     public int getX() {
         return x;
@@ -110,22 +104,36 @@ public abstract class Bird implements Runnable {
     //Update bird's position to move closer to good food
     public void move(){
 
+        searchFood();
         refreshWindow();
     }
 
     //TODO
     // Search in the environnement the closest good food
     public void searchFood(){
-        gameBoard.getNearestGoodFood(getX(), getY());
+        //target = gameBoard.getNearestGoodFood(getX(), getY());
+        double min = -1;
+        Food tmpFood = null;
+
+        for(Food food:Panneau.getFoods()){
+            if (food.isGood()){
+                double tmp = Math.pow(food.getX()-x, 2.0)+Math.pow(food.getY()-y, 2.0);
+                if (min < 0 || min > tmp){
+                    tmpFood = food;
+                    min = tmp;
+                }
+            }
+        }
+        target = tmpFood;
     }
 
     //TODO
     // Has to test if the food is still available and update the environnement if the food is eaten
     public void eat(){
-        if (gameBoard.isGoodFood(getX(), getY())){
-            gameBoard.removeFood(getX(), getY());
-            eaten ++;
-        }
+        gameBoard.removeFood(target);
+        target = null;
+        eaten ++;
+
     }
 
     //TODO
@@ -156,13 +164,13 @@ public abstract class Bird implements Runnable {
     @Override
     public void run() {
         while (true) {
-            searchFood();
+
             if (getAfraid()){
                 fear();
             }else{
-                if (foodAvailable){
+                if (Panneau.getFoods() != null){
                     move();
-                    if ((xFood < getSize() /2) && (yFood < getSize() /2)){
+                    if (target != null && target.getX() < getSize() /2 && target.getY() < getSize() /2){
                         eat();
                     }
                 }else{

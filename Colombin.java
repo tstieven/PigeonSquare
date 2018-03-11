@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 public class Colombin extends Bird {
 
 

@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 import java.util.ArrayList;
 
 public class World {
@@ -7,60 +5,59 @@ public class World {
     private ArrayList<Food> foods;
 
 
-
-    public World(){
+    public World() {
 
         this.foods = new ArrayList<Food>();
     }
 
     // Add food to given position
-    public void addFood(int x, int y){
-        foods.add(new Food(x,y));
+    public void addFood(int x, int y) {
+        foods.add(new Food(x, y));
     }
 
     //TODO try catch ???
     // Remove given PigeonSquare.Food
-    public void removeFood(int x, int y){
+    public void removeFood(int x, int y) {
         Food tmpFood = null;
         boolean test = false;
-       for(Food food : foods){
-           if ((food.getX() == x) && (food.getY() == y)) {
-               tmpFood = food;
-               test= true;
-           }
+        for (Food food : foods) {
+            if ((food.getX() == x) && (food.getY() == y)) {
+                tmpFood = food;
+                test = true;
+            }
         }
-        if (test){
+        if (test) {
             foods.remove(tmpFood);
         }
     }
 
     //TODO try catch ???
     // Remove given PigeonSquare.Food
-    public void removeFood(Food f){
+    public void removeFood(Food f) {
         foods.remove(f);
     }
 
 
     // Remove all old PigeonSquare.Food
-    public void cleanOldFood(){
+    public void cleanOldFood() {
         ArrayList<Food> tmpFood = new ArrayList<>();
 
-        for(Food food: foods){
-            if (food.isGood()){
+        for (Food food : foods) {
+            if (food.isGood()) {
                 tmpFood.add(food);
             }
         }
 
-        for (Food food : tmpFood){
+        for (Food food : tmpFood) {
             removeFood(food);
         }
 
     }
 
     // Return if there is PigeonSquare.Food on this position
-    public boolean isGoodFood(int x, int y){
+    public boolean isGoodFood(int x, int y) {
         boolean test = false;
-        for(Food food : foods) {
+        for (Food food : foods) {
             if ((food.getX() == x) && (food.getY() == y) && (food.isGood())) {
                 test = true;
             }
@@ -68,21 +65,21 @@ public class World {
         return test;
     }
 
-    // Return nearest PigeonSquare.Food from given position
+// Return nearest PigeonSquare.Food from given position
     public Food getNearestGoodFood(int x, int y){
-        int min = 999999;
-        int inutile = 0 ;
+        double min = -1;
         Food tmpFood = null;
 
         for(Food food:foods){
             if (food.isGood()){
-                int tmp= food.getX() * food.getX() + food.getY() + food.getY();
-                if (min > tmp){
+                double tmp = Math.pow(food.getX()-x, 2.0)+Math.pow(food.getY()-y, 2.0);
+                if (min < 0 || min > tmp){
                     tmpFood = food;
                     min = tmp;
                 }
             }
         }
-       return tmpFood;
+        return tmpFood;
     }
+
 }

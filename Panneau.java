@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,7 +16,7 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
     private static final long serialVersionUID = 1L;
     private Thread panelThread;
     private List<Bird> pigeons = null;
-    private List<Food> foods = null;
+    private static List<Food> foods = null;
 
 
     public Thread getPanelThread() {
@@ -31,7 +29,7 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
         return pigeons;
     }
 
-    public List<Food> getFoods() {
+    public static List<Food> getFoods() {
         return foods;
     }
 
@@ -164,7 +162,17 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
         }
     }
 
+    // Add food to given position
+    public void addFood(int x, int y) {
+        foods.add(new Food(x, y));
+    }
 
-
+    //TODO try catch ???
+    // Remove given PigeonSquare.Food
+    public void removeFood(Food f) {
+        foods.remove(f);
+    }
 
 }
+
+

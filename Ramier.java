@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 public class Ramier extends Bird {
 
     public Ramier(){

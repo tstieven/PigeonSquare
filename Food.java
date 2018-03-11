@@ -1,5 +1,3 @@
-package PigeonSquare;
-
 public class Food {
 
     private int foodGoodLimit;
@@ -44,4 +42,6 @@ public class Food {
     public void setY(int y) {
         this.y = y;
     }
+
+
 }
