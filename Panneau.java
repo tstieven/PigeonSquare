@@ -58,20 +58,17 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
             for(Food f : foods) {
                 x = f.getX();
                 y = f.getY();
-                /*if(!f.getIsEaten()) {
-                    try {
-                        Image burger;
-                        if(f.getIsFresh()) {
-                            burger = ImageIO.read(new File("burger.png"));
-                        }
-                        else {
-                            burger = ImageIO.read(new File("trashburger.png"));
-                        }
-                        g.drawImage(burger, x, y, this);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }*/
+
+
+                if(f.isGood()) {
+                     drawCircleByCenter(g,x,y,10,new Color(0,255,0));
+                }
+                else {
+                   drawCircleByCenter(g,x,y,10,new Color(255,0,0));
+                }
+
+
+
             }
         }
 
@@ -85,7 +82,6 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
                     switch (p.getCat()){
 
                         case 1:
-
                             drawCircleByCenter(g,x,y,p.getSize()/2,new Color(51,255,255));
                             break;
                         case 2 :
