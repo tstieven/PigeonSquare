@@ -12,9 +12,12 @@ public abstract class Bird implements Runnable {
 
     //TODO define if name is useless or not
     //protected String name;
+    private int pigeonID;
     private int size;
     private int cat;
     private int maxSpeed = 10;
+
+    private Thread pThread;
 
 
 
@@ -22,9 +25,11 @@ public abstract class Bird implements Runnable {
 
     private int speed;
 
-    private int pigeonCount;
+    private static int pigeonCount;
 
     private Panneau gameBoard;
+
+    public Thread getPThread() { return pThread; }
 
     public int getX() {
         return x;
@@ -58,6 +63,10 @@ public abstract class Bird implements Runnable {
         this.cat = cat;
     }
 
+    public int getPigeonID() {return pigeonID;}
+
+    public void setPigeonID(int id) {this.pigeonID = id;}
+
     public int getPigeonCount(){
         return pigeonCount;
     }
@@ -83,16 +92,20 @@ public abstract class Bird implements Runnable {
         Random rand = new Random();
         x = rand.nextInt(Fenetre.width-30)+15;
         y = rand.nextInt(Fenetre.height-20)+10;
-        speed = rand.nextInt(this.maxSpeed/2)+maxSpeed/2;
+        speed = rand.nextInt(this.maxSpeed/2)+this.maxSpeed/2;
         pigeonCount++;
+        this.pigeonID = pigeonCount;
+        this.start();
     }
 
     public Bird(int x, int y){
         Random rand = new Random();
         this.x = x;
         this.y = y;
-        speed = rand.nextInt(this.maxSpeed/2)+maxSpeed/2;
+        speed = rand.nextInt(this.maxSpeed/2)+this.maxSpeed/2;
         pigeonCount++;
+        this.pigeonID = pigeonCount;
+        this.start();
     }
 
 
@@ -110,8 +123,8 @@ public abstract class Bird implements Runnable {
         searchFood();
         if(target != null){
 
-            this.x = (target.getX() < this.x) ? this.x - this.speed : this.x + this.speed;
-            this.y = (target.getY() < this.y) ? this.y - this.speed : this.y + this.speed;
+            this.x = (target.getX() < this.x) ? this.x - this.speed/2 : this.x + this.speed/2;
+            this.y = (target.getY() < this.y) ? this.y - this.speed/2 : this.y + this.speed/2;
 
         }
         refreshWindow();
@@ -169,6 +182,12 @@ public abstract class Bird implements Runnable {
 
     }
 
+    public void start(){
+        if (pThread == null){
+            pThread = new Thread(this, "Pigeon " + pigeonID);
+            pThread.start();
+        }
+    }
 
     @Override
     public void run() {
@@ -177,7 +196,8 @@ public abstract class Bird implements Runnable {
             if (getAfraid()){
                 fear();
             }else{
-                if (Panneau.getFoods() != null){
+                System.out.println("Foods: "+Panneau.getFoods().size());
+                if (Panneau.getFoods().size() != 0){
                     move();
                     if (target != null && target.getX() < getSize() /2 && target.getY() < getSize() /2){
                         eat();

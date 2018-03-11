@@ -16,7 +16,7 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
     private static final long serialVersionUID = 1L;
     private Thread panelThread;
     private List<Bird> pigeons = null;
-    private static List<Food> foods = null;
+    private static List<Food> foods = new ArrayList<Food>();
 
 
     public Thread getPanelThread() {
@@ -173,11 +173,6 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
                 e.printStackTrace();
             }
         }
-    }
-
-    // Add food to given position
-    public void addFood(int x, int y) {
-        foods.add(new Food(x, y));
     }
 
     //TODO try catch ???
