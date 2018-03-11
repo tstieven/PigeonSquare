@@ -2,7 +2,7 @@ package PigeonSquare;
 
 public class Food {
 
-    private int foodGoodLimit;
+    private int foodGoodLimit=4000;
 
     private int x;
     private int y;
