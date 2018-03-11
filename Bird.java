@@ -20,8 +20,6 @@ public abstract class Bird implements Runnable {
 
     private int maxFear = 10;
 
-
-
     private int speed;
 
     private int pigeonCount;
@@ -83,8 +81,8 @@ public abstract class Bird implements Runnable {
 
     public Bird(){
         Random rand = new Random();
-        x = rand.nextInt(Fenetre.getWidth());
-        y = rand.nextInt(Fenetre.getHeigth());
+        x = rand.nextInt(Fenetre.width-30)+15;
+        y = rand.nextInt(Fenetre.height-20)+10;
         speed = rand.nextInt(this.maxSpeed/2)+maxSpeed/2;
         pigeonCount++;
     }
@@ -97,6 +95,11 @@ public abstract class Bird implements Runnable {
         pigeonCount++;
     }
 
+
+
+    public String toString(){
+        return this.getClass().getName() + " en position ("+this.x+","+this.y+")" ;
+    }
 
 
 

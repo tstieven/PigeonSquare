@@ -1,6 +1,6 @@
+import javafx.scene.shape.Circle;
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -55,20 +55,17 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
             for(Food f : foods) {
                 x = f.getX();
                 y = f.getY();
-                /*if(!f.getIsEaten()) {
-                    try {
-                        Image burger;
-                        if(f.getIsFresh()) {
-                            burger = ImageIO.read(new File("burger.png"));
-                        }
-                        else {
-                            burger = ImageIO.read(new File("trashburger.png"));
-                        }
-                        g.drawImage(burger, x, y, this);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }*/
+
+
+                if(f.isGood()) {
+                     drawCircleByCenter(g,x,y,10,new Color(0,255,0));
+                }
+                else {
+                   drawCircleByCenter(g,x,y,10,new Color(255,0,0));
+                }
+
+
+
             }
         }
 
@@ -78,13 +75,23 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
                 if(pigeons != null) {
                     x = p.getX();
                     y = p.getY();
-                    try {
 
-                        Image pigeon = ImageIO.read(new File("pigeon.png"));
-                        g.drawImage(pigeon, x, y, this);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    switch (p.getCat()){
+
+                        case 1:
+                            drawCircleByCenter(g,x,y,p.getSize()/2,new Color(51,255,255));
+                            break;
+                        case 2 :
+                            drawCircleByCenter(g,x,y,p.getSize()/2,new Color(51,153,255));
+                            break;
+                        case 3:
+                            drawCircleByCenter(g,x,y,p.getSize()/2,new Color(51,51,255));
+                            break;
+
                     }
+
+
+
                 }
             }
         }
@@ -104,6 +111,12 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
 
         }*/
     }
+
+    void drawCircleByCenter(Graphics g, int x, int y, int radius, Color color){
+        g.setColor(color);
+        g.fillOval(x-radius, y-radius, 2*radius, 2*radius);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent input) {

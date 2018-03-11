@@ -5,7 +5,7 @@ public class Biset extends Bird {
 
     public Biset(){
         super();
-        this.setSize(20);
+        this.setSize(30);
         this.setCat(1);
     }
 
@@ -14,7 +14,10 @@ public class Biset extends Bird {
 
     public Biset(int xpos, int ypos){
         super(xpos,ypos);
-        this.setSize(20);
+        this.setSize(30);
         this.setCat(1);
     }
+
+
+
 }

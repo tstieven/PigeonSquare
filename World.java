@@ -7,7 +7,7 @@ public class World {
 
     public World() {
 
-        this.foods = new ArrayList<Food>();
+            this.foods = new ArrayList<Food>();
     }
 
     // Add food to given position
