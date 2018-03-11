@@ -108,6 +108,12 @@ public abstract class Bird implements Runnable {
     public void move(){
 
         searchFood();
+        if(target != null){
+
+            this.x = (target.getX() < this.x) ? this.x - this.speed : this.x + this.speed;
+            this.y = (target.getY() < this.y) ? this.y - this.speed : this.y + this.speed;
+
+        }
         refreshWindow();
     }
 
@@ -120,7 +126,7 @@ public abstract class Bird implements Runnable {
 
         for(Food food:Panneau.getFoods()){
             if (food.isGood()){
-                double tmp = Math.pow(food.getX()-x, 2.0)+Math.pow(food.getY()-y, 2.0);
+                double tmp = Math.pow(food.getX()-this.x, 2.0)+Math.pow(food.getY()-this.y, 2.0);
                 if (min < 0 || min > tmp){
                     tmpFood = food;
                     min = tmp;
