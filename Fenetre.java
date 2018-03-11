@@ -5,32 +5,58 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
 
-public class Fenetre {
+public class Fenetre extends JFrame {
     private static final long serialVersionUID = 1L;
-    private static int width = 800;
-    private static int heigth = 600;
+    public static int width = 800;
+    public static int height = 600;
     private Panneau panneau;
 
-    public static int getHeigth() {
-        return heigth;
-    }
-
-    public static int getWidth() {
-        return width;
-    }
 
     public Fenetre(int numberBiset, int numberColombin, int numberRamier){
         panneau = new Panneau(initBird(numberBiset,numberColombin,numberRamier));
+        this.setTitle("PigeonSquare");
+        this.setSize(width,height);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setContentPane(panneau);
+        this.setVisible(true);
+        loop();
+
+
+
     }
 
-    private List<Bird> initBird(int b, int C, int R){
-        List<Bird> list = new ArrayList<>();
+    public static List<Bird> initBird(int b, int c, int r){
+        List<Bird> birds = new ArrayList<>();
         for(int i = 0; i < b; i++){
-            list.add(new Biset());
+            birds.add(new Biset());
+            System.out.println(birds.size());
         }
-        return list;
+        for(int i = 0 ; i<c ; i++){
+            birds.add(new Colombin());
+        }
+        for (int i = 0; i<r;i++){
+            birds.add(new Ramier());
+        }
+        System.out.println(birds.size());
+        return birds;
+    }
+
+    private void loop(){
+        while(true){
+            try{
+                Thread.sleep(30);
+            }
+            catch( InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
 
+    public static void main(String args[]){
+        new Fenetre(2,3,4);
+
+    }
 
 }

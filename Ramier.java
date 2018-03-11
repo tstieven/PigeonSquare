@@ -4,7 +4,7 @@ public class Ramier extends Bird {
 
     public Ramier(){
         super();
-        this.setSize(12);
+        this.setSize(20);
         this.setCat(3);
     }
 
@@ -13,7 +13,7 @@ public class Ramier extends Bird {
 
     public Ramier(int xpos, int ypos){
         super(xpos,ypos);
-        this.setSize(12);
+        this.setSize(20);
         this.setCat(3);
     }
 }
