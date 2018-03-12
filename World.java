@@ -1,14 +1,14 @@
 package PigeonSquare;
 import java.util.ArrayList;
 
-public class World {
+class World {
 
     private ArrayList<Food> foods;
 
 
     public World() {
 
-            this.foods = new ArrayList<Food>();
+            this.foods = new ArrayList<>();
     }
 
     // Add food to given position
@@ -34,7 +34,7 @@ public class World {
 
     //TODO try catch ???
     // Remove given PigeonSquare.Food
-    public void removeFood(Food f) {
+    private void removeFood(Food f) {
         foods.remove(f);
     }
 

@@ -2,9 +2,8 @@ package PigeonSquare;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class Bird implements Runnable {
+abstract class Bird implements Runnable {
 
-    //PigeonSquare.Bird position
     private int x;
     private int y;
     private int eaten = 0;
@@ -63,7 +62,7 @@ public abstract class Bird implements Runnable {
         return size;
     }
 
-    public void setSize(int size) {
+    void setSize(int size) {
         this.size = size;
     }
 
@@ -71,7 +70,7 @@ public abstract class Bird implements Runnable {
         return cat;
     }
 
-    public void setCat(int cat) {
+    void setCat(int cat) {
         this.cat = cat;
     }
 
@@ -92,7 +91,7 @@ public abstract class Bird implements Runnable {
         this.maxSpeed = maxSpeed;
     }
 
-    public Bird(){
+    Bird(){
         Random rand = new Random();
         x = rand.nextInt(Fenetre.width-30)+15;
         y = rand.nextInt(Fenetre.height-20)+10;
@@ -121,7 +120,7 @@ public abstract class Bird implements Runnable {
 
 
     //Update bird's position to move closer to good food
-    public void move(){
+    private void move(){
         searchFood();
         if(belief != null){
             this.x = (belief.getX() < this.x) ? this.x - this.speed/2 : this.x + this.speed/2;
@@ -131,8 +130,7 @@ public abstract class Bird implements Runnable {
 
 
     // Search in the environnement the closest good food
-    public void searchFood(){
-        //target = gameBoard.getNearestGoodFood(getX(), getY());
+    private void searchFood(){
         double min = -1;
         Food tmpFood = null;
 
@@ -156,7 +154,7 @@ public abstract class Bird implements Runnable {
 
 
     // Has to test if the food is still available and update the environnement if the food is eaten
-    public void eat(){
+    private void eat(){
         try {
             if(target != null){
                 Panneau.getFoods().remove(target);
@@ -171,7 +169,7 @@ public abstract class Bird implements Runnable {
 
 
     // Update bird's position if it's afraid
-    public void fear(){
+    private void fear(){
         if (System.currentTimeMillis() > this.afraidTime+this.afraidSpawnTime){
             setAfraid(false,0);
         }else{
@@ -187,7 +185,7 @@ public abstract class Bird implements Runnable {
 
 
 
-    public void start(){
+    private void start(){
         if (pThread == null){
             pThread = new Thread(this, "Pigeon " + pigeonID);
             pThread.start();
@@ -209,17 +207,13 @@ public abstract class Bird implements Runnable {
                     if (target != null && tmp < this.getSize()){
                         eat();
                     }
-
                 }
-
             }
             try{
                 Thread.sleep(50);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
-
-
 
         }
     }

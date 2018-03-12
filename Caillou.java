@@ -1,6 +1,6 @@
 package PigeonSquare;
 
-public class Caillou {
+class Caillou {
     private int x;
     private int y;
     private long spawningTime;

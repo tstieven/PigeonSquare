@@ -1,17 +1,16 @@
 package PigeonSquare;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JFrame;
 
-public class Fenetre extends JFrame {
+class Fenetre extends JFrame {
     private static final long serialVersionUID = 1L;
     public static int width = 800;
     public static int height = 600;
     private Panneau panneau;
 
 
-    public Fenetre(int numberBiset, int numberColombin, int numberRamier){
+    private Fenetre(int numberBiset, int numberColombin, int numberRamier){
         panneau = new Panneau(initBird(numberBiset,numberColombin,numberRamier));
         this.setTitle("PigeonSquare");
         this.setSize(width,height);
@@ -21,11 +20,9 @@ public class Fenetre extends JFrame {
         this.setVisible(true);
         loop();
 
-
-
     }
 
-    public static List<Bird> initBird(int b, int c, int r){
+    private static List<Bird> initBird(int b, int c, int r){
         List<Bird> birds = new ArrayList<>();
         for(int i = 0; i < b; i++){
             birds.add(new Biset());

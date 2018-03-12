@@ -1,27 +1,22 @@
 package PigeonSquare;
 
-import javafx.scene.shape.Circle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 
-public class Panneau extends JPanel implements Runnable, MouseListener {
+class Panneau extends JPanel implements Runnable, MouseListener {
 
     private static final long serialVersionUID = 1L;
     private Thread panelThread;
     private static List<Bird> pigeons = null;
     //représente les nourritures mangeables
-    private static List<Food> foods = new ArrayList<Food>();
+    private static List<Food> foods = new ArrayList<>();
     //représente les nourritures non mangeables
-    private static List<Food> badFood = new ArrayList<Food>();
+    private static List<Food> badFood = new ArrayList<>();
 
     public static List<Food> getBadFood() {
         return badFood;
@@ -48,14 +43,11 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
         return foods;
     }
 
-    public void setFood(Food food, int index) {
-        this.foods.set(index,food);
-    }
 
     public Panneau(List<Bird> pigeons){
         addMouseListener(this);
         this.pigeons = pigeons;
-        if(foods==null) foods = new ArrayList<Food>();
+        if(foods==null) foods = new ArrayList<>();
         this.start();
 
 
@@ -146,7 +138,7 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
         }*/
     }
 
-    void drawCircleByCenter(Graphics g, int x, int y, int radius, Color color){
+    private void drawCircleByCenter(Graphics g, int x, int y, int radius, Color color){
         g.setColor(color);
         g.fillOval(x-radius, y-radius, 2*radius, 2*radius);
     }

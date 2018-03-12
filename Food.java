@@ -34,7 +34,7 @@ public class Food {
     private boolean isGood = true;
     private Timer timer = new Timer();
 
-    public void getsTooOld() {
+    private void getsTooOld() {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -66,7 +66,7 @@ public class Food {
         return x;
     }
 
-    public void setX(int x) {
+    private void setX(int x) {
         this.x = x;
     }
 
@@ -74,11 +74,12 @@ public class Food {
         return y;
     }
 
-    public void setY(int y) {
+    private void setY(int y) {
         this.y = y;
     }
 
     public Food clone(){
+
         Food tmp = new Food(x,y);
         tmp.spawningTime = this.spawningTime;
         tmp.isEaten = this.isEaten;

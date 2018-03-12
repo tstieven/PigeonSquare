@@ -1,9 +1,5 @@
 package PigeonSquare;
-public class Colombin extends Bird {
-
-
-
-
+class Colombin extends Bird {
 
     public Colombin(){
         super();
@@ -12,13 +8,6 @@ public class Colombin extends Bird {
     }
 
 
-
-
-    public Colombin(int xpos, int ypos){
-        super(xpos,ypos);
-        this.setSize(40);
-        this.setCat(1);
-    }
 
 
 }
