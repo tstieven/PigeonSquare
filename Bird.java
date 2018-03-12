@@ -1,3 +1,5 @@
+package PigeonSquare;
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Bird implements Runnable {
@@ -7,21 +9,31 @@ public abstract class Bird implements Runnable {
     private int y;
     private int eaten = 0;
     private Food target = null;
-
-
-
-    //TODO define if name is useless or not
-    //protected String name;
+    private Food belief = null;
+    private double targetDistance;
+    private long afraidTime;
+    private long afraidSpawnTime;
     private int pigeonID;
     private int size;
     private int cat;
-    private int maxSpeed = 10;
+    private int maxSpeed = 15;
 
     private Thread pThread;
 
 
+    public boolean isAfraid() {
+        return isAfraid;
+    }
 
-    private int maxFear = 10;
+    public void setAfraid(boolean afraid, long afraidSpawnTime) {
+        isAfraid = afraid;
+        Random rand = new Random();
+        afraidTime = rand.nextInt(2000);
+        this.afraidSpawnTime = afraidSpawnTime;
+        System.out.println(pigeonID);
+    }
+
+    private boolean isAfraid = false;
 
     private int speed;
 
@@ -71,10 +83,6 @@ public abstract class Bird implements Runnable {
         return pigeonCount;
     }
 
-    public int getMaxFear() {
-        return maxFear;
-    }
-
 
     public int getSpeed() {
         return speed;
@@ -82,10 +90,6 @@ public abstract class Bird implements Runnable {
 
     public void setMaxSpeed(int maxSpeed) {
         this.maxSpeed = maxSpeed;
-    }
-
-    public void setMaxFear(int maxFear) {
-        this.maxFear = maxFear;
     }
 
     public Bird(){
@@ -116,29 +120,26 @@ public abstract class Bird implements Runnable {
 
 
 
-    //TODO
     //Update bird's position to move closer to good food
     public void move(){
-
         searchFood();
-        if(target != null){
-
-            this.x = (target.getX() < this.x) ? this.x - this.speed/2 : this.x + this.speed/2;
-            this.y = (target.getY() < this.y) ? this.y - this.speed/2 : this.y + this.speed/2;
-
+        if(belief != null){
+            this.x = (belief.getX() < this.x) ? this.x - this.speed/2 : this.x + this.speed/2;
+            this.y = (belief.getY() < this.y) ? this.y - this.speed/2 : this.y + this.speed/2;
         }
-        refreshWindow();
     }
 
-    //TODO
+
     // Search in the environnement the closest good food
     public void searchFood(){
         //target = gameBoard.getNearestGoodFood(getX(), getY());
         double min = -1;
         Food tmpFood = null;
 
-        for(Food food:Panneau.getFoods()){
-            if (food.isGood()){
+        ArrayList<Food> tmpList = new ArrayList<>();
+        tmpList.addAll(Panneau.getFoods());
+        for(Food food:tmpList){
+            if (food != null && food.isGood()){
                 double tmp = Math.pow(food.getX()-this.x, 2.0)+Math.pow(food.getY()-this.y, 2.0);
                 if (min < 0 || min > tmp){
                     tmpFood = food;
@@ -146,41 +147,45 @@ public abstract class Bird implements Runnable {
                 }
             }
         }
+        targetDistance = min;
         target = tmpFood;
+        if (target != null) {
+            belief = target.clone();
+        }
     }
 
-    //TODO
+
     // Has to test if the food is still available and update the environnement if the food is eaten
     public void eat(){
-        gameBoard.removeFood(target);
-        target = null;
+        try {
+            if(target != null){
+                Panneau.getFoods().remove(target);
+            }
+        }catch (Exception e){
+            System.out.println("Trop tard, Pigeon n°"+this.pigeonID);
+        }
+        targetDistance = 0;
         eaten ++;
 
     }
 
-    //TODO
-    // Determine if the bird is afraid
-    public boolean getAfraid(){
-        return false;
-    }
 
-    //TODO
     // Update bird's position if it's afraid
     public void fear(){
-        refreshWindow();
+        if (System.currentTimeMillis() > this.afraidTime+this.afraidSpawnTime){
+            setAfraid(false,0);
+        }else{
+            Random rand = new Random();
+            int xAlea = rand.nextInt(800);
+            int yAlea = rand.nextInt(600);
+            this.x = (xAlea < this.x) ? this.x - this.speed/2 : this.x + this.speed/2;
+            this.y = (yAlea < this.y) ? this.y - this.speed/2 : this.y + this.speed/2;
+        }
     }
 
-    //TODO
-    // Set the bird to a sleep mode
-    public void sleep(){
 
-    }
 
-    //TODO
-    // Refresh the graphic window with new position
-    public void refreshWindow(){
 
-    }
 
     public void start(){
         if (pThread == null){
@@ -189,24 +194,32 @@ public abstract class Bird implements Runnable {
         }
     }
 
+
     @Override
     public void run() {
+        Random rand = new Random();
         while (true) {
 
-            if (getAfraid()){
+            if (this.isAfraid){
                 fear();
             }else{
-                System.out.println("Foods: "+Panneau.getFoods().size());
-                if (Panneau.getFoods().size() != 0){
+                if (Panneau.getFoods().size() > 0){
                     move();
-                    if (target != null && target.getX() < getSize() /2 && target.getY() < getSize() /2){
+                    double tmp = Math.pow(belief.getX()-this.x, 2.0)+Math.pow(belief.getY()-this.y, 2.0);
+                    if (target != null && tmp < this.getSize()){
                         eat();
                     }
-                }else{
-                    sleep();
+
                 }
 
             }
+            try{
+                Thread.sleep(50);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+
+
 
         }
     }

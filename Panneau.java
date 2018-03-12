@@ -1,3 +1,5 @@
+package PigeonSquare;
+
 import javafx.scene.shape.Circle;
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +17,21 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
 
     private static final long serialVersionUID = 1L;
     private Thread panelThread;
-    private List<Bird> pigeons = null;
+    private static List<Bird> pigeons = null;
+    //représente les nourritures mangeables
     private static List<Food> foods = new ArrayList<Food>();
+    //représente les nourritures non mangeables
+    private static List<Food> badFood = new ArrayList<Food>();
+
+    public static List<Food> getBadFood() {
+        return badFood;
+    }
+
+    public static void setBadFood(List<Food> badFood) {
+        Panneau.badFood = badFood;
+    }
+
+
 
 
     public Thread getPanelThread() {
@@ -25,7 +40,7 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
 
 
 
-    public List<Bird> getPigeons(){
+    public static List<Bird> getPigeons(){
         return pigeons;
     }
 
@@ -53,17 +68,36 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
         if(foods != null && !foods.isEmpty()) {
             int x,y;
             for(Food f : foods) {
-                x = f.getX();
-                y = f.getY();
+                if (!f.getEaten()) {
+                    x = f.getX();
+                    y = f.getY();
 
 
-                if(f.isGood()) {
-                     drawCircleByCenter(g,x,y,10,new Color(0,255,0));
+                    if (f.isGood()) {
+                        drawCircleByCenter(g, x, y, 10, new Color(0, 255, 0));
+                    } else {
+                        drawCircleByCenter(g, x, y, 10, new Color(255, 0, 0));
+                    }
                 }
-                else {
-                   drawCircleByCenter(g,x,y,10,new Color(255,0,0));
-                }
 
+
+            }
+        }
+
+        if(badFood != null && !badFood.isEmpty()){
+            int x,y;
+            for(Food f : badFood) {
+                if (!f.getEaten()) {
+                    x = f.getX();
+                    y = f.getY();
+
+
+                    if (f.isGood()) {
+                        drawCircleByCenter(g, x, y, 10, new Color(0, 255, 0));
+                    } else {
+                        drawCircleByCenter(g, x, y, 10, new Color(255, 0, 0));
+                    }
+                }
 
 
             }
@@ -127,9 +161,11 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
 
             switch (button){
                 case MouseEvent.BUTTON1:
-                    foods.add(new Food(x,y));
+                    Food tmpFood = new Food(x,y);
+                    foods.add(tmpFood);
                     break;
                 case MouseEvent.BUTTON3:
+                    Caillou tmpCaillou = new Caillou(x,y);
                     break;
             }
 
@@ -178,8 +214,11 @@ public class Panneau extends JPanel implements Runnable, MouseListener {
     //TODO try catch ???
     // Remove given PigeonSquare.Food
     public void removeFood(Food f) {
-        foods.remove(f);
+        System.out.println(foods.size());
+        //this.foods.remove(this.foods.indexOf(f));
+        System.out.println(foods.size());
     }
+
 
 }
 
